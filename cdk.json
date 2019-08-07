@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node bin/cdk-poc-my-consumer-app.ts"
+}
