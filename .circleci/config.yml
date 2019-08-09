@@ -20,6 +20,9 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      - run: # run lint
+          name: test
+          command: npm run lint
       - run: # run tests
           name: test
-          command: npm run test
+          command: npm test
