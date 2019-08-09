@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/amongil/cdk-poc-my-consumer-app.svg?style=shield)](https://circleci.com/gh/amongil/cdk-poc-my-consumer-app)
 # Useful commands
 
  * `npm run build`   compile typescript to js
