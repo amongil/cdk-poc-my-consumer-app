@@ -1,7 +1,7 @@
 import cdk = require('@aws-cdk/core');
 import s3 = require('cdk-poc-corporate-constructs/lib/s3');
 import dynamoDb = require('cdk-poc-corporate-constructs/lib/dynamodb');
-import { Aws } from '@aws-cdk/core';
+import rds = require('cdk-poc-corporate-constructs/lib/rds');
 
 export class CdkPocMyConsumerAppStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -66,6 +66,12 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
           value: 'AI Factory'
         }
       ]
+    })
+
+    // Create Production PostgreSQL instance
+    const myPostgresql = new rds.ProductionPostgresql(this, 'MyProductionPostgresql', {
+      dbInstanceClass: 'db.t2.micro',
+      dbName: 'cdkpocpostgres'
     })
   }
 }
