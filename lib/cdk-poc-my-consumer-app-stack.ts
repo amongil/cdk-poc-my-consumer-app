@@ -4,74 +4,74 @@ import dynamoDb = require('cdk-poc-corporate-constructs/lib/dynamodb');
 import rds = require('cdk-poc-corporate-constructs/lib/rds');
 
 export class CdkPocMyConsumerAppStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+    public constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
 
-    // Create S3 bucket
-    const bucket = new s3.Bucket(this, 'CDKPoCBucket', {
-      bucketName: 'cdkpocbucket',
-      versioningConfiguration: {
-        status: 'Enabled'
-      },
-      bucketEncryption: {
-        serverSideEncryptionConfiguration: [
-          {
-            serverSideEncryptionByDefault: {
-              sseAlgorithm: 'AES256'
-            }
-          }
-        ]
-        },
-      tags: [
-        {
-          key: 'Department',
-          value: 'AI Factory'
-        }
-      ]
-    });
+        // Create S3 bucket
+        new s3.Bucket(this, 'CDKPoCBucket', {
+            bucketName: 'cdkpocbucket',
+            versioningConfiguration: {
+                status: 'Enabled',
+            },
+            bucketEncryption: {
+                serverSideEncryptionConfiguration: [
+                    {
+                        serverSideEncryptionByDefault: {
+                            sseAlgorithm: 'AES256',
+                        },
+                    },
+                ],
+            },
+            tags: [
+                {
+                    key: 'Department',
+                    value: 'AI Factory',
+                },
+            ],
+        });
 
-    // Create DynamoDB table
-    const dynamoTable = new dynamoDb.DynamoTable(this, 'CDKPoCDynamo', {
-      tableName: 'CDKPoCDynamo',
-      attributeDefinitions: [
-        {
-          attributeName: 'CustomerId',
-          attributeType: 'S'
-        },
-        {
-          attributeName: 'Balance',
-          attributeType: 'S'
-        }
-      ],
-      keySchema: [
-        {
-          attributeName: 'CustomerId',
-          keyType: 'HASH'
-        },
-        {
-          attributeName: 'Balance',
-          keyType: 'RANGE'
-        }
-      ],
-      provisionedThroughput: {
-        readCapacityUnits: 1,
-        writeCapacityUnits: 1
-      },
-      sseSpecification: {
-        sseEnabled: true
-      },
-      tags: [
-        {
-          key: 'Department',
-          value: 'AI Factory'
-        }
-      ]
-    })
+        // Create DynamoDB table
+        new dynamoDb.DynamoTable(this, 'CDKPoCDynamo', {
+            tableName: 'CDKPoCDynamo',
+            attributeDefinitions: [
+                {
+                    attributeName: 'CustomerId',
+                    attributeType: 'S',
+                },
+                {
+                    attributeName: 'Balance',
+                    attributeType: 'S',
+                },
+            ],
+            keySchema: [
+                {
+                    attributeName: 'CustomerId',
+                    keyType: 'HASH',
+                },
+                {
+                    attributeName: 'Balance',
+                    keyType: 'RANGE',
+                },
+            ],
+            provisionedThroughput: {
+                readCapacityUnits: 1,
+                writeCapacityUnits: 1,
+            },
+            sseSpecification: {
+                sseEnabled: true,
+            },
+            tags: [
+                {
+                    key: 'Department',
+                    value: 'AI Factory',
+                },
+            ],
+        });
 
-    // Create Production PostgreSQL instance
-    const myPostgresql = new rds.ProductionPostgresql(this, 'MyProductionPostgresql', {
-      dbInstanceClass: 'db.t2.micro',
-      dbName: 'cdkpocpostgres'
-    })
-  }
+        // Create Production PostgreSQL instance
+        new rds.ProductionPostgresql(this, 'MyProductionPostgresql', {
+            dbInstanceClass: 'db.t2.micro',
+            dbName: 'cdkpocpostgres',
+        });
+    }
 }
