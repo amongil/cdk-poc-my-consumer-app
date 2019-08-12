@@ -73,7 +73,7 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
             dbInstanceClass: 'db.t2.micro',
             allocatedStorage: '10',
             masterUsername: 'myUser',
-            masterPassword: 'myPassword',
+            masterUserPassword: 'myPassword',
             dbName: 'cdkpocpostgres',
         });
     }
