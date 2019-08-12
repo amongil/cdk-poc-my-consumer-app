@@ -23,8 +23,14 @@ jobs:
           name: lint
           command: npm run lint
       - run:
+          name: lint
+          command: npm run build
+      - run:
           name: test
           command: npm test
       - run:
           name: cdk synth
           command: npm run cdk synth
+      - run:
+          name: cdk deploy
+          command: npm run cdk deploy
