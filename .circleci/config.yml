@@ -80,6 +80,7 @@ jobs:
       - run:
           name: deploy
           command: npm run cdk deploy
+          no_output_timeout: "30m"
 
 workflows:
   version: 2
