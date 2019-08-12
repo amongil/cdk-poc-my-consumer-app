@@ -75,6 +75,12 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
             masterUsername: 'myUser',
             masterUserPassword: 'myPassword',
             dbName: 'cdkpocpostgres',
+            tags: [
+                {
+                    key: 'Department',
+                    value: 'AI Factory',
+                },
+            ],
         });
     }
 }
