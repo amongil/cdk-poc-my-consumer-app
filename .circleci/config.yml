@@ -2,11 +2,29 @@ version: 2
 jobs:
   build:
     docker:
-       - image: circleci/node
-
+      - image: circleci/node
     steps:
       - checkout
-
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm-wee
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: build
+          command: npm run build
+  lint:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
@@ -22,15 +40,59 @@ jobs:
       - run:
           name: lint
           command: npm run lint
+  test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
       - run:
-          name: build
-          command: npm run build
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm-wee
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
       - run:
           name: test
-          command: npm test
+          command: npm run test
+  deploy:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
       - run:
-          name: cdk synth
-          command: npm run cdk synth
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: cdk deploy
+          name: install-npm-wee
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: deploy
           command: npm run cdk deploy
+
+workflows:
+  version: 2
+  lint_build_test_deploy:
+    jobs:
+      - lint
+      - build
+      - test
+      - deploy:
+          requires:
+            - lint
+            - build
+            - test
+          filters:
+            branches:
+              only: master
