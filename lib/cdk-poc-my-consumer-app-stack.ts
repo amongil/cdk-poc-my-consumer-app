@@ -70,7 +70,7 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
 
         // Create Production PostgreSQL instance
         new rds.ProductionPostgresql(this, 'MyProductionPostgresql', {
-            dbInstanceClass: 'db.t2.micro',
+            dbInstanceClass: 'db.t2.medium',
             allocatedStorage: '10',
             masterUsername: 'myUser',
             masterUserPassword: 'myPassword',
