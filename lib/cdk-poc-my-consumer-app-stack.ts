@@ -13,15 +13,15 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
             versioningConfiguration: {
                 status: 'Enabled',
             },
-            // bucketEncryption: {
-            //     serverSideEncryptionConfiguration: [
-            //         {
-            //             serverSideEncryptionByDefault: {
-            //                 sseAlgorithm: 'AES256',
-            //             },
-            //         },
-            //     ],
-            // },
+            bucketEncryption: {
+                serverSideEncryptionConfiguration: [
+                    {
+                        serverSideEncryptionByDefault: {
+                            sseAlgorithm: 'AES256',
+                        },
+                    },
+                ],
+            },
             tags: [
                 {
                     key: 'Department',
