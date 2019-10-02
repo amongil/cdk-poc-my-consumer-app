@@ -75,7 +75,7 @@ export class CdkPocMyConsumerAppStack extends cdk.Stack {
             masterUsername: 'myUser',
             masterUserPassword: 'myPassword',
             dbName: 'cdkpocpostgres',
-            //storageEncrypted: true,
+            storageEncrypted: true,
             tags: [
                 {
                     key: 'Department',
